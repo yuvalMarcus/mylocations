@@ -1,0 +1,16 @@
+.Categories {
+    padding: 2rem 0;
+}
+.Categories header {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 10px;
+    background-color: rgba(52, 58, 64, 0.75);
+    -moz-box-shadow: 3px -3px 15px 0px #333;
+    -webkit-box-shadow: 3px -3px 15px 0px #333;
+    box-shadow: 3px -3px 15px 0px #333;
+    color: #fff;
+    margin-bottom: 2rem;
+}
