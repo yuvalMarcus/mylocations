@@ -1,15 +1,14 @@
 import React from 'react';
-import './header.css';
 
 import Navigation from '../Navigation/Navigation';
 
 const Header = props => {
 
     return (
-        <header className={'global'}>
-            <div className={'Logo'}>
+        <header className={'flex bg-white border-gray-300 border-b-2 shadow'}>
+            <div className={''}>
                 <a href="/">
-                    <i className="fa fa-list-ol" aria-hidden="true"></i>&nbsp;&nbsp;Todo List
+                    <i className="fa fa-list-ol" aria-hidden="true"></i>&nbsp;&nbsp;MyL
                 </a>
             </div>
             <Navigation />

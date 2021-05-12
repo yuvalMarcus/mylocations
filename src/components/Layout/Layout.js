@@ -1,14 +1,11 @@
 import React, { Fragment } from 'react';
-import './Layout.css';
 
 import Header from '../../components/Header/Header';
 
 const Layout = (props) => (
     <Fragment>
-        <div className={'BackgroundPurple'}>
-        </div>
         <Header />
-        <main className={'Main'}>
+        <main className={'p-6'}>
             {props.children}
         </main>
     </Fragment>

@@ -14,7 +14,7 @@ const Element = ({
             {elementType === 'input' && <input value={value} onChange={change} />}
             {elementType === 'textarea' && <textarea value={value} onChange={change} />}
             {elementType === 'select' && <select value={value} onChange={change} >
-                {options.map(option => (
+                {options && options.map(option => (
                     <option key={value} value={value}>
                         {option.displayValue}
                     </option>

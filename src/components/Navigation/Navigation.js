@@ -4,7 +4,7 @@ import './Navigation.css';
 const Navigation = props => {
 
     return (
-        <nav>
+        <nav className={'text-left'}>
             <a href="/add-todo">
                 categories
             </a>
