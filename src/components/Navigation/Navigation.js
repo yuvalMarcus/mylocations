@@ -1,16 +1,13 @@
 import React from 'react';
-import './Navigation.css';
+import {Link} from "react-router-dom";
 
 const Navigation = props => {
 
     return (
-        <nav className={'text-left'}>
-            <a href="/add-todo">
-                categories
-            </a>
-            <a href="/add-todo">
-                location
-            </a>
+        <nav className={'text-left space-x-4'}>
+            <Link to="/categories">
+                Categories
+            </Link>
         </nav>
     )
 };

@@ -13,6 +13,9 @@ const CategoriesList = ({
     return (
         <div className={''}>
             <Toolbar action={'list'} category={category} />
+            <div className={'text-gray-500 font-bold py-2'}>
+                <span>Categories List</span>
+            </div>
             <section className={'bg-white border rounded shadow'}>
                 {categories.map(cat => <Category
                     key={cat.id}
