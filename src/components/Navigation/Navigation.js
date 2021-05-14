@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const Navigation = props => {
+const Navigation = () => {
 
     return (
         <nav className={'text-left space-x-4'}>

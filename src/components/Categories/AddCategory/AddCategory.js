@@ -1,17 +1,24 @@
 import React, { useState} from 'react';
+import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
-
-import { elements } from '../../handlers/utility';
+import * as actionTypes from '../../../store/actions';
 import Toolbar from "../Toolbar/Toolbar";
 
-const AddCategory = props => {
+const AddCategory = ({
+                         onAddCategory = null,
+                         history = null
+                     }) => {
 
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => console.log(data);
+
+    const onSubmit = (data) => {
+        onAddCategory(data);
+        history.push('/');
+    }
 
     return (
         <>
@@ -35,4 +42,10 @@ const AddCategory = props => {
     );
 };
 
-export default AddCategory;
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddCategory: (category) => dispatch({type: actionTypes.ADD_CATEGORY, category: category})
+    }
+};
+
+export default connect(null, mapDispatchToProps)(AddCategory);
