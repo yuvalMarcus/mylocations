@@ -13,6 +13,7 @@ const App = () => {
               <Switch>
                   <Route path="/categories/edit/:id" component={EditCategory} />
                   <Route path="/categories/show/:id" component={ShowCategory} />
+                  <Route path="/categories/add/:id" component={AddCategory} />
                   <Route path="/categories/add" component={AddCategory} />
                   <Route path="/categories/:id" component={Categories} />
                   <Route path="/categories" component={Categories} />

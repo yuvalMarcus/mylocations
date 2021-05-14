@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 
 const Toolbar = ({
+                     action = 'no-select',
                      category = null,
                      removeCategory = null
                  }) => {
@@ -15,12 +16,13 @@ const Toolbar = ({
             <span className={'font-bold'}> Categories </span>
             {!category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={'/categories'}>categories</Link>}
             {category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/${category.id}`}>categories</Link>}
-            <Link className={'space-x-1 bg-blue-400 text-white rounded p-1 px-2'} to={'/categories/add'}>
-                add
-            </Link>
-            {category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/edit/${category.id}`}>edit</Link>}
-            {category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/show/${category.id}`}>view details</Link>}
-            {category && <button className={'bg-blue-400 text-white rounded p-1 px-2'} onClick={() => removeCategory(category.id)}>delete</button>}
+
+            {!category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={'/categories/add'}>add</Link>}
+            {category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/add/${category.id}`}>add</Link>}
+
+            {action === 'select' && category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/edit/${category.id}`}>edit</Link>}
+            {action === 'select' && category && <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/show/${category.id}`}>view details</Link>}
+            {action === 'select' && category && <button className={'bg-blue-400 text-white rounded p-1 px-2'} onClick={() => removeCategory(category.id)}>delete</button>}
         </div>
     )
 }

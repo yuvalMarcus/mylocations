@@ -2,7 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 import * as actionTypes from './actions';
 
 const initialState = {
-    categories: []
+    categories: [],
+    alerts: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,9 +14,14 @@ const reducer = (state = initialState, action) => {
                 ...action.category,
                 id: uuidv4()
             };
+            const addAlert = {
+                id: uuidv4(),
+                text: action.alert
+            };
             return {
                 ...state,
-                categories: state.categories.concat(category)
+                categories: state.categories.concat(category),
+                alerts: [addAlert]
             };
         case (actionTypes.EDIT_CATEGORY):
             const index = state.categories.findIndex(cat => cat.id === action.id);
@@ -24,14 +30,29 @@ const reducer = (state = initialState, action) => {
                 ...state.categories[index],
                 name: action.payload.name
             }
+            const editAlert = {
+                id: uuidv4(),
+                text: action.alert
+            };
             return {
                 ...state,
-                categories: newCategories
+                categories: newCategories,
+                alerts: [editAlert]
             };
         case (actionTypes.REMOVE_CATEGORY):
+            const deleteAlert = {
+                id: uuidv4(),
+                text: action.alert
+            };
             return {
                 ...state,
-                categories: state.categories.filter(cat => cat.id !== action.id)
+                categories: state.categories.filter(cat => cat.id !== action.id),
+                alerts: [deleteAlert]
+            };
+        case (actionTypes.REMOVE_ALERT):
+            return {
+                ...state,
+                alerts: state.alerts.filter(alert => alert.id !== action.id)
             };
     }
 

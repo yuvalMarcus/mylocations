@@ -15,7 +15,7 @@ const ShowCategory = ({
     return (
         <>
             {!category && <Redirect to={'/'} />}
-            <Toolbar category={category} removeCategory={onRemoveCategory} />
+            <Toolbar action={'select'} category={category} removeCategory={onRemoveCategory} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Show Category</span>
             </div>

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { connect } from 'react-redux';
+import Alerts from '../../Alerts/Alerts';
 import Category from "./Category/Category";
 import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from "../../../store/actions";
@@ -25,7 +26,8 @@ const CategoriesList = ({
 
     return (
         <>
-            <Toolbar category={category} removeCategory={removeCategory} />
+            <Toolbar action={'select'} category={category} removeCategory={removeCategory} />
+            <Alerts />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Categories List</span>
             </div>

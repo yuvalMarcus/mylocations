@@ -26,14 +26,14 @@ const EditCategory = ({
     });
 
     const onSubmit = (data) => {
-        onEditCategory(data, category.id);
-        history.push('/');
+        onEditCategory(data, category.id, `edit category ${data.name}`);
+        history.push('/categories');
     }
 
     return (
         <>
             {!category && <Redirect to={'/'} />}
-            <Toolbar category={category} removeCategory={onRemoveCategory} />
+            <Toolbar action={'select'} category={category} removeCategory={onRemoveCategory} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Edit Category</span>
             </div>
@@ -61,7 +61,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onEditCategory: (category, id) => dispatch({type: actionTypes.EDIT_CATEGORY, payload: category, id: id}),
+        onEditCategory: (category, id, alert) => dispatch({type: actionTypes.EDIT_CATEGORY, payload: category, id: id, alert: alert}),
         onRemoveCategory: (id) => dispatch({type: actionTypes.REMOVE_CATEGORY, id: id})
     }
 };

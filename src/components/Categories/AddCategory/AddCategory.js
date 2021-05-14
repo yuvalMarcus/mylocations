@@ -1,13 +1,18 @@
-import React, { useState} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as actionTypes from '../../../store/actions';
 import Toolbar from "../Toolbar/Toolbar";
 
 const AddCategory = ({
+                         categories = [],
                          onAddCategory = null,
+                         match = null,
                          history = null
                      }) => {
+
+    const id = match.params.id;
+    const category = categories.find(cat => cat.id === id);
 
     const {
         register,
@@ -16,13 +21,13 @@ const AddCategory = ({
     } = useForm();
 
     const onSubmit = (data) => {
-        onAddCategory(data);
-        history.push('/');
+        onAddCategory(data, `add new category ${data.name}`);
+        history.push('/categories');
     }
 
     return (
         <>
-            <Toolbar />
+            <Toolbar category={category} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Add New Category</span>
             </div>
@@ -42,10 +47,16 @@ const AddCategory = ({
     );
 };
 
+const mapStateToProps = state => {
+    return {
+        categories: state.categories
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
-        onAddCategory: (category) => dispatch({type: actionTypes.ADD_CATEGORY, category: category})
+        onAddCategory: (category, alert) => dispatch({type: actionTypes.ADD_CATEGORY, category: category, alert: alert})
     }
 };
 
-export default connect(null, mapDispatchToProps)(AddCategory);
+export default connect(mapStateToProps, mapDispatchToProps)(AddCategory);
