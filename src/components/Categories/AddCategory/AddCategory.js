@@ -55,7 +55,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddCategory: (category, alert) => dispatch({type: actionTypes.ADD_CATEGORY, category: category, alert: alert})
+        onAddCategory: (category) => dispatch({type: actionTypes.ADD_CATEGORY, category: category})
     }
 };
 

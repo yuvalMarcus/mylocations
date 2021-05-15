@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as actionTypes from './actions';
+import { addNewCategoryAlert, editCategoryAlert, removeCategoryAlert } from '../handlers/utility';
 
 const initialState = {
     categories: [],
@@ -16,7 +17,7 @@ const reducer = (state = initialState, action) => {
             };
             const addAlert = {
                 id: uuidv4(),
-                text: action.alert
+                text: addNewCategoryAlert
             };
             return {
                 ...state,
@@ -32,7 +33,7 @@ const reducer = (state = initialState, action) => {
             }
             const editAlert = {
                 id: uuidv4(),
-                text: action.alert
+                text: editCategoryAlert
             };
             return {
                 ...state,
@@ -42,7 +43,7 @@ const reducer = (state = initialState, action) => {
         case (actionTypes.REMOVE_CATEGORY):
             const deleteAlert = {
                 id: uuidv4(),
-                text: action.alert
+                text: removeCategoryAlert
             };
             return {
                 ...state,

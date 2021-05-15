@@ -14,3 +14,7 @@ export const elements = [
         }
     }
 ]
+
+export const addNewCategoryAlert = 'add new category';
+export const editCategoryAlert = 'category is edited';
+export const removeCategoryAlert = 'category is remove';
