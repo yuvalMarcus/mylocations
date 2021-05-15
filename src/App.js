@@ -8,7 +8,7 @@ import ShowCategory from './components/Categories/ShowCategory/ShowCategory';
 
 const App = () => {
   return (
-      <BrowserRouter basename="/" >
+      <BrowserRouter basename="/projects/react/mylocations/" >
           <Layout>
               <Switch>
                   <Route path="/categories/edit/:id" component={EditCategory} />
