@@ -4,8 +4,7 @@ import { addNewCategoryAlert, editCategoryAlert, removeCategoryAlert } from '../
 
 const initialState = {
     categories: [],
-    category: null,
-    alerts: []
+    category: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,46 +20,29 @@ const reducer = (state = initialState, action) => {
                 ...action.category,
                 id: uuidv4()
             };
-            const addAlert = {
-                id: uuidv4(),
-                text: addNewCategoryAlert
-            };
             return {
                 ...state,
-                categories: state.categories.concat(category),
-                alerts: [addAlert]
+                categories: state.categories.concat(category)
             };
         case (actionTypes.EDIT_CATEGORY):
-            const index = state.categories.findIndex(cat => cat.id === action.id);
-            const newCategories = [...state.categories];
-            newCategories[index] = {
-                ...state.categories[index],
-                name: action.payload.name
-            }
-            const editAlert = {
-                id: uuidv4(),
-                text: editCategoryAlert
-            };
+            const newCategories = [...state.categories].map(cat => {
+                if(cat.id === action.id) {
+                    return {
+                        ...cat,
+                        name: action.payload.name
+                    }
+                }
+                return cat;
+            });
             return {
                 ...state,
-                categories: newCategories,
-                alerts: [editAlert]
+                categories: newCategories
             };
         case (actionTypes.REMOVE_CATEGORY):
-            const deleteAlert = {
-                id: uuidv4(),
-                text: removeCategoryAlert
-            };
             return {
                 ...state,
                 categories: state.categories.filter(cat => cat.id !== action.id),
-                categoryId: null,
-                alerts: [deleteAlert]
-            };
-        case (actionTypes.REMOVE_ALERT):
-            return {
-                ...state,
-                alerts: state.alerts.filter(alert => alert.id !== action.id)
+                categoryId: null
             };
     }
 
