@@ -1,21 +1,24 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from "../../../store/actions";
 
 const ShowCategory = ({
-                          categories = [],
-                          onRemoveCategory = null,
-                          match = null,
+                          categories,
+                          categoryId
                       }) => {
 
-    const id = match.params.id;
-    const category = categories.find(cat => cat.id === id);
+    const category = useMemo(() => categories.find(cat => cat.id === categoryId),
+        [categories, categoryId]);
+
+    if(!category) {
+        return <Redirect to={'/'} />;
+    }
+
     return (
         <>
-            {!category && <Redirect to={'/'} />}
-            <Toolbar action={'select'} category={category} removeCategory={onRemoveCategory} />
+            <Toolbar title={'Show Category'} action={'select'} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Show Category</span>
             </div>
@@ -26,16 +29,16 @@ const ShowCategory = ({
     )
 }
 
+ShowCategory.defaultProps = {
+    categories: [],
+    categoryId: null
+};
+
 const mapStateToProps = state => {
     return {
+        categoryId: state.categoryId,
         categories: state.categories
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onRemoveCategory: (id) => dispatch({type: actionTypes.REMOVE_CATEGORY, id: id})
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowCategory);
+export default connect(mapStateToProps, null)(ShowCategory);

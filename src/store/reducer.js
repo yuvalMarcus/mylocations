@@ -4,12 +4,18 @@ import { addNewCategoryAlert, editCategoryAlert, removeCategoryAlert } from '../
 
 const initialState = {
     categories: [],
+    category: null,
     alerts: []
 };
 
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case (actionTypes.SET_CATEGORY):
+            return {
+                ...state,
+                categoryId: action.id
+            }
         case (actionTypes.ADD_CATEGORY):
             const category = {
                 ...action.category,
@@ -48,6 +54,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 categories: state.categories.filter(cat => cat.id !== action.id),
+                categoryId: null,
                 alerts: [deleteAlert]
             };
         case (actionTypes.REMOVE_ALERT):

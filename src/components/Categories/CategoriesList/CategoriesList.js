@@ -1,33 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import { connect } from 'react-redux';
-import Alerts from '../../Alerts/Alerts';
 import Category from "./Category/Category";
 import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from "../../../store/actions";
+import 'react-toastify/dist/ReactToastify.css';
 
 const CategoriesList = ({
-                            categories = [],
-                            onRemoveCategory = null,
-                            match = null
+                            categoryId,
+                            categories,
+                            onSetCategory,
                         }) => {
 
-    const [category, setCategory] = useState(null);
-
-    const removeCategory = id => {
-        onRemoveCategory(id)
-        setCategory(null);
-    }
-
-    const id = match.params.id;
-
-    useEffect(() =>{
-        setCategory(categories.find(cat => cat.id === id));
-    }, [id]);
+    const category = useMemo(() => categories.find(cat => cat.id === categoryId),
+        [categories, categoryId]);
 
     return (
         <>
-            <Toolbar action={'select'} category={category} removeCategory={removeCategory} />
-            <Alerts />
+            <Toolbar title={'Categories'} action={'select'} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Categories List</span>
             </div>
@@ -37,20 +26,28 @@ const CategoriesList = ({
                     key={cat.id}
                     name={cat.name}
                     active={category && cat.id === category.id}
-                    choose={() => setCategory(cat)} />)}
+                    choose={() => onSetCategory(cat.id)} />)}
             </section>
         </>
     )
 }
 
+CategoriesList.defaultProps = {
+    categoryId: null,
+    categories: [],
+    onSetCategory: null,
+};
+
 const mapStateToProps = state => {
     return {
+        categoryId: state.categoryId,
         categories: state.categories
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        onSetCategory: (id) => dispatch({type: actionTypes.SET_CATEGORY, id: id}),
         onRemoveCategory: (id) => dispatch({type: actionTypes.REMOVE_CATEGORY, id: id})
     }
 };

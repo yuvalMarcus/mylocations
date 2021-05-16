@@ -1,9 +1,9 @@
 import React from "react";
 
 const Category = ({
-                      name = '',
-                      active = false,
-                      choose = null
+                      name,
+                      active,
+                      choose
                   }) => {
 
     return (
@@ -26,5 +26,11 @@ const Category = ({
         </div>
     )
 }
+
+Category.defaultProps = {
+    name: '',
+    active: false,
+    choose: null
+};
 
 export default Category;

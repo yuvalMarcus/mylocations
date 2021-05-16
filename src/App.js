@@ -5,22 +5,28 @@ import Categories from './components/Categories/CategoriesList/CategoriesList';
 import AddCategory from './components/Categories/AddCategory/AddCategory';
 import EditCategory from './components/Categories/EditCategory/EditCategory';
 import ShowCategory from './components/Categories/ShowCategory/ShowCategory';
+import {ToastContainer} from "react-toastify";
+import React from "react";
 
 const App = () => {
   return (
-      <BrowserRouter basename="/projects/react/mylocations/" >
-          <Layout>
-              <Switch>
-                  <Route path="/categories/edit/:id" component={EditCategory} />
-                  <Route path="/categories/show/:id" component={ShowCategory} />
-                  <Route path="/categories/add/:id" component={AddCategory} />
-                  <Route path="/categories/add" component={AddCategory} />
-                  <Route path="/categories/:id" component={Categories} />
-                  <Route path="/categories" component={Categories} />
-                  <Route path="/" component={Categories} />
-              </Switch>
-          </Layout>
-      </BrowserRouter>
+      <>
+          <ToastContainer
+              position="top-right"
+              autoClose={4000}
+          />
+          <BrowserRouter basename="/projects/react/mylocations/" >
+              <Layout>
+                  <Switch>
+                      <Route path="/categories/edit" component={EditCategory} />
+                      <Route path="/categories/show" component={ShowCategory} />
+                      <Route path="/categories/add" component={AddCategory} />
+                      <Route path="/categories" component={Categories} />
+                      <Route path="/" component={Categories} />
+                  </Switch>
+              </Layout>
+          </BrowserRouter>
+      </>
   );
 }
 

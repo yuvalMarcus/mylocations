@@ -2,11 +2,13 @@ import React from 'react';
 
 import Header from '../../components/Header/Header';
 
-const Layout = (props) => (
+const Layout = ({
+                    children
+                }) => (
     <>
         <Header />
         <main className={'p-6'}>
-            {props.children}
+            {children}
         </main>
     </>
 );

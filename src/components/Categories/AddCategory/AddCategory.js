@@ -1,18 +1,17 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as actionTypes from '../../../store/actions';
 import Toolbar from "../Toolbar/Toolbar";
+import {toast} from "react-toastify";
 
 const AddCategory = ({
-                         categories = [],
-                         onAddCategory = null,
-                         match = null,
-                         history = null
+                         onAddCategory,
+                         history
                      }) => {
 
-    const id = match.params.id;
-    const category = categories.find(cat => cat.id === id);
+    const notify = useCallback(() => toast.success("added new category"),
+        []);
 
     const {
         register,
@@ -21,13 +20,14 @@ const AddCategory = ({
     } = useForm();
 
     const onSubmit = (data) => {
-        onAddCategory(data, `add new category ${data.name}`);
+        onAddCategory(data);
+        notify();
         history.push('/categories');
     }
 
     return (
         <>
-            <Toolbar category={category} />
+            <Toolbar title={'Add Category'} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Add New Category</span>
             </div>
@@ -35,7 +35,7 @@ const AddCategory = ({
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={'p-2'}>
                         <label>Name</label>
-                        <input className={'bg-gray-100 w-full p-2'} {...register('name',{ required: true })} />
+                        <input className={'bg-gray-100 w-full p-2'} autoFocus {...register('name',{ required: true })} />
                         {errors.name && <p className={'text-red-600'}>Last name is required</p>}
                     </div>
                     <div className={'p-2'}>
@@ -45,6 +45,11 @@ const AddCategory = ({
             </div>
         </>
     );
+};
+
+AddCategory.defaultProps = {
+    onAddCategory: null,
+    history: null
 };
 
 const mapStateToProps = state => {

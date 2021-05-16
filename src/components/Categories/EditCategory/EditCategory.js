@@ -1,19 +1,20 @@
-import React, { useState} from 'react';
+import React, {useCallback, useContext, useMemo, useState} from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as actionTypes from '../../../store/actions';
 import {Redirect} from "react-router-dom";
 import Toolbar from "../Toolbar/Toolbar";
+import {toast} from "react-toastify";
 
 const EditCategory = ({
-                          categories = [],
-                          onEditCategory = null,
-                          onRemoveCategory = null,
-                          match = null,
-                          history = null
+                          categoryId,
+                          categories,
+                          onEditCategory,
+                          history
                      }) => {
-    const id = match.params.id;
-    const category = categories.find(cat => cat.id === id);
+
+    const category = useMemo(() => categories.find(cat => cat.id === categoryId),
+        [categories, categoryId]);
 
     const {
         register,
@@ -25,15 +26,22 @@ const EditCategory = ({
         }
     });
 
+    const notify = useCallback(() => toast.success("Category successfully edited"),
+        []);
+
+    if(!category) {
+        return <Redirect to={'/'} />;
+    }
+
     const onSubmit = (data) => {
-        onEditCategory(data, category.id, `edit category ${data.name}`);
+        onEditCategory(data, category.id);
+        notify();
         history.push('/categories');
     }
 
     return (
         <>
-            {!category && <Redirect to={'/'} />}
-            <Toolbar action={'select'} category={category} removeCategory={onRemoveCategory} />
+            <Toolbar title={'Edit Category'} action={'select'} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Edit Category</span>
             </div>
@@ -41,7 +49,7 @@ const EditCategory = ({
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={'p-2'}>
                         <label>Name</label>
-                        <input className={'bg-gray-100 w-full p-2'} {...register('name',{ required: true })} />
+                        <input className={'bg-gray-100 w-full p-2'} autoFocus {...register('name',{ required: true })} />
                         {errors.name && <p className={'text-red-600'}>Last name is required</p>}
                     </div>
                     <div className={'p-2'}>
@@ -53,8 +61,16 @@ const EditCategory = ({
     );
 };
 
+EditCategory.defaultProps = {
+    categoryId: null,
+    categories: [],
+    onEditCategory: null,
+    history: null
+};
+
 const mapStateToProps = state => {
     return {
+        categoryId: state.categoryId,
         categories: state.categories
     };
 };
