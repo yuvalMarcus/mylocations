@@ -16,7 +16,7 @@ const App = () => {
               position="top-right"
               autoClose={4000}
           />
-          <BrowserRouter basename="/projects/react/mylocations/" >
+          <BrowserRouter>
               <Layout>
                   <Switch>
                       <Route path="/categories/edit" component={EditCategory} />
