@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as actionTypes from './actions';
-import { addNewCategoryAlert, editCategoryAlert, removeCategoryAlert } from '../handlers/utility';
 
 const initialState = {
     categories: [],

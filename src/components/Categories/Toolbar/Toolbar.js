@@ -1,8 +1,8 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {Link} from "react-router-dom";
-import * as actionTypes from "../../../store/actions";
 import {connect} from "react-redux";
 import {toast} from "react-toastify";
+import * as actionTypes from "../../../store/actions";
 import { ReactComponent as PaperClipIcon } from '../../../asset/img/paper-clip.svg';
 
 const Toolbar = ({
@@ -13,7 +13,7 @@ const Toolbar = ({
                      onRemoveCategory
                  }) => {
 
-    const notify = useCallback(() => toast.error("Category successfully deleted"),
+    const notify = useCallback(() => toast.success("Category successfully deleted"),
         []);
 
     const category = useMemo(() => categories.find(cat => cat.id === categoryId),

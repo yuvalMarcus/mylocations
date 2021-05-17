@@ -1,12 +1,13 @@
-import { BrowserRouter } from 'react-router-dom';
-import { Route, Switch } from 'react-router';
+import React from "react";
+import {BrowserRouter} from 'react-router-dom';
+import {Route, Switch} from 'react-router';
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from './components/Layout/Layout';
 import Categories from './components/Categories/CategoriesList/CategoriesList';
 import AddCategory from './components/Categories/AddCategory/AddCategory';
 import EditCategory from './components/Categories/EditCategory/EditCategory';
 import ShowCategory from './components/Categories/ShowCategory/ShowCategory';
-import {ToastContainer} from "react-toastify";
-import React from "react";
 
 const App = () => {
   return (

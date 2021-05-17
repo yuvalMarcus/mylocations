@@ -1,9 +1,8 @@
-import React, {useEffect, useMemo, useState} from "react";
-import { connect } from 'react-redux';
+import React, {useMemo} from "react";
+import {connect} from 'react-redux';
 import Category from "./Category/Category";
 import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from "../../../store/actions";
-import 'react-toastify/dist/ReactToastify.css';
 
 const CategoriesList = ({
                             categoryId,

@@ -1,10 +1,10 @@
-import React, {useCallback, useContext, useMemo, useState} from 'react';
-import { connect } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import * as actionTypes from '../../../store/actions';
+import React, {useCallback, useMemo} from 'react';
+import {connect} from 'react-redux';
+import {useForm} from 'react-hook-form';
 import {Redirect} from "react-router-dom";
-import Toolbar from "../Toolbar/Toolbar";
 import {toast} from "react-toastify";
+import Toolbar from "../Toolbar/Toolbar";
+import * as actionTypes from '../../../store/actions';
 
 const EditCategory = ({
                           categoryId,

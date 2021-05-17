@@ -2,7 +2,6 @@ import React, {useMemo} from "react";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import Toolbar from "../Toolbar/Toolbar";
-import * as actionTypes from "../../../store/actions";
 
 const ShowCategory = ({
                           categories,

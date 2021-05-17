@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import { connect } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import * as actionTypes from '../../../store/actions';
-import Toolbar from "../Toolbar/Toolbar";
+import {connect} from 'react-redux';
+import {useForm} from 'react-hook-form';
 import {toast} from "react-toastify";
+import Toolbar from "../Toolbar/Toolbar";
+import * as actionTypes from '../../../store/actions';
 
 const AddCategory = ({
                          onAddCategory,
