@@ -39,7 +39,7 @@ const AddCategory = ({
                         {errors.name && <p className={'text-red-600'}>Last name is required</p>}
                     </div>
                     <div className={'p-2'}>
-                        <input className={'rounded p-3 bg-pink-600 text-white cursor-pointer'} type="submit" value={'Add Category'} />
+                        <input className={'rounded p-3 bg-pink-600 text-white cursor-pointer hover:bg-pink-700'} type="submit" value={'Add Category'} />
                     </div>
                 </form>
             </div>

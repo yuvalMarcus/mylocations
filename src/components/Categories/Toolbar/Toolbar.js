@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import * as actionTypes from "../../../store/actions";
 import {connect} from "react-redux";
 import {toast} from "react-toastify";
+import { ReactComponent as PaperClipIcon } from '../../../asset/img/paper-clip.svg';
 
 const Toolbar = ({
                      categoryId,
@@ -20,14 +21,14 @@ const Toolbar = ({
 
     const renderNavbar = useCallback(() => (
         <>
-            <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories`}>categories</Link>
-            <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/add`}>add</Link>
+            <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories`}>categories</Link>
+            <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/add`}>add</Link>
             {
                 category && action === 'select' && (
                     <>
-                        <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/edit`}>edit</Link>
-                        <Link className={'bg-blue-400 text-white rounded p-1 px-2'} to={`/categories/show`}>view details</Link>
-                        <button className={'bg-blue-400 text-white rounded p-1 px-2'} onClick={() => {
+                        <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/edit`}>edit</Link>
+                        <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/show`}>view details</Link>
+                        <button className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} onClick={() => {
                             onRemoveCategory(category.id)
                             notify();
                         }}>delete</button>
@@ -39,12 +40,8 @@ const Toolbar = ({
     ), [category, action]);
 
     return (
-        <div className={'flex items-center space-x-4 bg-blue-200 border-b-4 border-blue-600 rounded shadow-xl p-2 mb-6'}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                      d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
-            </svg>
+        <div className={'flex flex-wrap items-center space-x-4 bg-blue-200 border-b-4 border-blue-600 rounded shadow-xl p-2 mb-6'}>
+            <PaperClipIcon />
             <span className={'font-bold'}>{title}</span>
             {renderNavbar()}
         </div>

@@ -20,14 +20,14 @@ const CategoriesList = ({
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Categories List</span>
             </div>
-            <section className={'bg-white border rounded shadow'}>
+            <div className={'bg-white border shadow'}>
                 {!categories.length && <div className={'text-gray-400 p-2'}>Empty Categories</div>}
                 {categories.map(cat => <Category
                     key={cat.id}
                     name={cat.name}
                     active={category && cat.id === category.id}
-                    choose={() => onSetCategory(cat.id)} />)}
-            </section>
+                    choose={() => onSetCategory(!category || cat.id !== category.id ? cat.id : null)} />)}
+            </div>
         </>
     )
 }
