@@ -24,7 +24,7 @@ const Toolbar = ({
 
     const renderNavbar = useCallback(() => (
         <>
-            <Link className={'bg-blue-400 text-white rounded p-1 px-2 mt-2 md:mt-0 hover:bg-blue-500'} to={`/categories`}>categories</Link>
+            <Link className={'bg-blue-400 text-white rounded p-1 px-2 mt-2 md:mt-0 hover:bg-blue-500'} to={`/categories`}>list</Link>
             <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/add`}>add</Link>
             {
                 category && action === 'select' && (
