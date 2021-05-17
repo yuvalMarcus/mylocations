@@ -22,6 +22,15 @@ const Toolbar = ({
     const category = useMemo(() => categories.find(cat => cat.id === categoryId),
         [categories, categoryId]);
 
+    const removeCategory = useCallback(() => {
+        if(!category) {
+            return;
+        }
+        onRemoveCategory(category.id)
+        setMenu(false);
+        notify();
+    }, [category]);
+
     const renderNavbar = useCallback(() => (
         <>
             <Link className={'bg-blue-400 text-white rounded p-1 px-2 mt-2 md:mt-0 hover:bg-blue-500'} to={`/categories`}>list</Link>
@@ -31,11 +40,7 @@ const Toolbar = ({
                     <>
                         <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/edit`}>edit</Link>
                         <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/show`}>view details</Link>
-                        <button className={'bg-blue-400 text-white rounded p-1 px-2 text-left hover:bg-blue-500'} onClick={() => {
-                            onRemoveCategory(category.id)
-                            setMenu(false);
-                            notify();
-                        }}>delete</button>
+                        <button className={'bg-blue-400 text-white rounded p-1 px-2 text-left hover:bg-blue-500'} onClick={removeCategory}>delete</button>
                     </>
                 )
             }
