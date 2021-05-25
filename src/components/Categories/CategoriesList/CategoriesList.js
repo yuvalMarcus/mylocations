@@ -39,8 +39,8 @@ CategoriesList.defaultProps = {
 
 const mapStateToProps = state => {
     return {
-        categoryId: state.categoryId,
-        categories: state.categories
+        categoryId: state.categories.itemId,
+        categories: state.categories.items
     };
 };
 

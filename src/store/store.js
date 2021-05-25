@@ -1,5 +1,6 @@
-import {createStore} from "redux";
-import reducer from './reducer';
+import {createStore, combineReducers} from "redux";
+import categoryReducer from './reducers/categoryReducer';
+import locationReducer from './reducers/locationReducer';
 
 function saveLocalStorage(state) {
     try {
@@ -20,7 +21,12 @@ function loadLocalStorage() {
     }
 }
 
-const store = createStore(reducer, loadLocalStorage());
+const rootReducer = combineReducers({
+    categories: categoryReducer,
+    locations: locationReducer
+});
+
+const store = createStore(rootReducer, loadLocalStorage());
 
 store.subscribe(() => saveLocalStorage(store.getState()));
 

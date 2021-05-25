@@ -1,18 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
-import * as actionTypes from './actions';
+import * as actionTypes from '../actions';
 
 const initialState = {
-    categories: [],
-    category: null
+    items: [],
+    itemId: null,
 };
 
-const reducer = (state = initialState, action) => {
+const categoryReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case (actionTypes.SET_CATEGORY):
             return {
                 ...state,
-                categoryId: action.id
+                itemId: action.id
             }
         case (actionTypes.ADD_CATEGORY):
             const category = {
@@ -21,10 +21,10 @@ const reducer = (state = initialState, action) => {
             };
             return {
                 ...state,
-                categories: state.categories.concat(category)
+                items: state.items.concat(category)
             };
         case (actionTypes.EDIT_CATEGORY):
-            const newCategories = [...state.categories].map(cat => {
+            const newCategories = [...state.items].map(cat => {
                 if(cat.id === action.id) {
                     return {
                         ...cat,
@@ -35,17 +35,17 @@ const reducer = (state = initialState, action) => {
             });
             return {
                 ...state,
-                categories: newCategories
+                items: newCategories
             };
         case (actionTypes.REMOVE_CATEGORY):
             return {
                 ...state,
-                categories: state.categories.filter(cat => cat.id !== action.id),
-                categoryId: null
+                items: state.items.filter(cat => cat.id !== action.id),
+                itemId: null
             };
     }
 
   return state;
 };
 
-export default reducer;
+export default categoryReducer;

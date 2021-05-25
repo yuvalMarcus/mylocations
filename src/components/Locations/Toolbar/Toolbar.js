@@ -7,46 +7,46 @@ import { ReactComponent as PaperClipIcon } from '../../../asset/img/paper-clip.s
 import { ReactComponent as MenuIcon } from '../../../asset/img/menu.svg';
 
 const Toolbar = ({
-                     categoryId,
-                     categories,
+                     locationId,
+                     locations,
                      action,
                      title,
-                     onRemoveCategory
+                     onRemoveLocation
                  }) => {
 
     const [menu, setMenu] = useState(false);
 
-    const notify = useCallback(() => toast.success("Category successfully deleted"),
+    const notify = useCallback(() => toast.success("Location successfully deleted"),
         []);
 
-    const category = useMemo(() => categories.find(cat => cat.id === categoryId),
-        [categories, categoryId]);
+    const location = useMemo(() => locations.find(loc => loc.id === locationId),
+        [locations, locationId]);
 
-    const removeCategory = useCallback(() => {
-        if(!category) {
+    const removeLocation = useCallback(() => {
+        if(!location) {
             return;
         }
-        onRemoveCategory(category.id)
+        onRemoveLocation(location.id)
         setMenu(false);
         notify();
-    }, [category]);
+    }, [location]);
 
     const renderNavbar = useCallback(() => (
         <>
-            <Link className={'bg-blue-400 text-white rounded p-1 px-2 mt-2 md:mt-0 hover:bg-blue-500'} to={`/categories`}>list</Link>
-            <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/add`}>add</Link>
+            <Link className={'bg-blue-400 text-white rounded p-1 px-2 mt-2 md:mt-0 hover:bg-blue-500'} to={`/locations`}>list</Link>
+            <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/locations/add`}>add</Link>
             {
-                category && action === 'select' && (
+                location && action === 'select' && (
                     <>
-                        <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/edit`}>edit</Link>
-                        <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/categories/show`}>view details</Link>
-                        <button className={'bg-blue-400 text-white rounded p-1 px-2 text-left hover:bg-blue-500'} onClick={removeCategory}>delete</button>
+                        <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/locations/edit`}>edit</Link>
+                        <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/locations/show`}>view details</Link>
+                        <button className={'bg-blue-400 text-white rounded p-1 px-2 text-left hover:bg-blue-500'} onClick={removeLocation}>delete</button>
                     </>
                 )
             }
 
         </>
-    ), [category, action]);
+    ), [location, action]);
 
     return (
         <div className={'md:flex bg-blue-200 border-b-4 border-blue-600 rounded shadow-xl p-2 mb-6'}>
@@ -66,23 +66,23 @@ const Toolbar = ({
 }
 
 Toolbar.defaultProps = {
-    categoryId: null,
-    categories: [],
+    locationId: null,
+    locations: [],
     action: 'no-select',
     title: '',
-    onRemoveCategory: null
+    onRemoveLocation: null
 };
 
 const mapStateToProps = state => {
     return {
-        categoryId: state.categories.itemId,
-        categories: state.categories.items
+        locationId: state.locations.itemId,
+        locations: state.locations.items
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onRemoveCategory: (id) => dispatch({type: actionTypes.REMOVE_CATEGORY, id: id})
+        onRemoveLocation: (id) => dispatch({type: actionTypes.REMOVE_LOCATION, id: id})
     }
 };
 
