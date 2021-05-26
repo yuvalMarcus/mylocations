@@ -18,7 +18,7 @@ const GoogleMap = ({
                     lat: lat,
                     lng: lng
                 }}
-                defaultZoom={11}
+                defaultZoom={zoom}
             >
                 {markers && markers.map(mar => <Marker key={`id-${mar.title}-${mar.lat}`} lat={mar.lat} lng={mar.lng} title={mar.title} />)}
             </GoogleMapReact>

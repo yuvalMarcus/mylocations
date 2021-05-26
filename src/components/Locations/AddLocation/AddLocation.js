@@ -1,10 +1,11 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useMemo} from 'react';
 import {connect} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {toast} from "react-toastify";
 import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from '../../../store/actions';
 import Select from 'react-select';
+import GoogleMap from "../../GoogleMap/GoogleMap";
 
 const AddLocation = ({
                          categories,
@@ -12,12 +13,15 @@ const AddLocation = ({
                          history
                      }) => {
 
+    const [coordinates, setCoordinates] = useState([]);
+
     const notify = useCallback(() => toast.success("added new location"),
         []);
 
     const {
         register,
         handleSubmit,
+        setValue,
         control,
         formState: { errors },
     } = useForm();
@@ -27,6 +31,18 @@ const AddLocation = ({
         onAddLocation(data);
         notify();
         history.push('/locations');
+    }
+
+    const handleMap = (data) => {
+        setCoordinates([
+            {
+                lng: data.lng,
+                lat: data.lat,
+                title: ''
+            }
+        ]);
+        setValue("lng", data.lng);
+        setValue("lat", data.lat);
     }
 
     return (
@@ -45,8 +61,16 @@ const AddLocation = ({
                         <input className={'bg-gray-100 w-full p-2 mb-2'} {...register('address',{ required: true })} />
                         {errors.address && <p className={'text-red-600'}>Address is required</p>}
                         <label>Coordinates</label>
-                        <input className={'bg-gray-100 w-full p-2 mb-2'} {...register('coordinates',{ required: true })} />
-                        {errors.coordinates && <p className={'text-red-600'}>Coordinates is required</p>}
+                        <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lng',{ required: true })} />
+                        <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lat',{ required: true })} />
+                        <GoogleMap
+                            onClick={handleMap}
+                            lng={34.772688258004685}
+                            lat={32.08625973554081}
+                            zoom={8}
+                            markers={coordinates}
+                        />
+                        {errors.lng && errors.lat && <p className={'text-red-600'}>Coordinates is required</p>}
                         <label>Category</label>
                         <Controller
                             name="category"
@@ -55,6 +79,7 @@ const AddLocation = ({
                             render={({ field }) => <Select
                                 {...field}
                                 isMulti={true}
+                                className={'mt-1'}
                                 options={categories.map(cat => (
                                     {
                                         value: cat.id,

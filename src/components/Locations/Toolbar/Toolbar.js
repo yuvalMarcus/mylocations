@@ -11,13 +11,17 @@ const Toolbar = ({
                      locations,
                      action,
                      title,
-                     onRemoveLocation
+                     onRemoveLocation,
+                     category
                  }) => {
 
     const [menu, setMenu] = useState(false);
 
     const notify = useCallback(() => toast.success("Location successfully deleted"),
         []);
+
+    locations = useMemo(() => [...locations].filter(loc => loc.category.find(cat => cat.label.toLowerCase().includes(category))),
+        [locations, category]);;
 
     const location = useMemo(() => locations.find(loc => loc.id === locationId),
         [locations, locationId]);
@@ -70,13 +74,15 @@ Toolbar.defaultProps = {
     locations: [],
     action: 'no-select',
     title: '',
-    onRemoveLocation: null
+    onRemoveLocation: null,
+    category: ''
 };
 
 const mapStateToProps = state => {
     return {
         locationId: state.locations.itemId,
-        locations: state.locations.items
+        locations: state.locations.items,
+        category: state.locations.filter.category,
     };
 };
 

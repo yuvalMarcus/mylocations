@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {connect} from 'react-redux';
 import {Controller, useForm} from 'react-hook-form';
 import {Redirect} from "react-router-dom";
@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from '../../../store/actions';
 import Select from "react-select";
+import GoogleMap from "../../GoogleMap/GoogleMap";
 
 const EditLocation = ({
                           categories,
@@ -18,16 +19,24 @@ const EditLocation = ({
     const location = useMemo(() => locations.find(loc => loc.id === locationId),
         [locations, locationId]);
 
+    const [coordinates, setCoordinates] = useState([{
+        lng: location.lng,
+        lat: location.lat,
+        title: ''
+    }]);
+
     const {
         register,
         handleSubmit,
+        setValue,
         control,
         formState: { errors },
     } = useForm({
         defaultValues: {
             name: location && location.name,
             address: location && location.address,
-            coordinates: location && location.coordinates,
+            lng: location && location.lng,
+            lat: location && location.lat,
             category: location && location.category
         }
     });
@@ -43,6 +52,18 @@ const EditLocation = ({
         onEditLocation(data, location.id);
         notify();
         history.push('/locations');
+    }
+
+    const handleMap = (data) => {
+        setCoordinates([
+            {
+                lng: data.lng,
+                lat: data.lat,
+                title: ''
+            }
+        ]);
+        setValue("lng", data.lng);
+        setValue("lat", data.lat);
     }
 
     return (
@@ -61,8 +82,15 @@ const EditLocation = ({
                         <input className={'bg-gray-100 w-full p-2 mb-2'} {...register('address',{ required: true })} />
                         {errors.address && <p className={'text-red-600'}>Address is required</p>}
                         <label>Coordinates</label>
-                        <input className={'bg-gray-100 w-full p-2 mb-2'} {...register('coordinates',{ required: true })} />
-                        {errors.coordinates && <p className={'text-red-600'}>Coordinates is required</p>}
+                        <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lng',{ required: true })} />
+                        <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lat',{ required: true })} />                        <GoogleMap
+                            onClick={handleMap}
+                            lng={location.lng}
+                            lat={location.lat}
+                            zoom={8}
+                            markers={coordinates}
+                        />
+                        {errors.lng && errors.lat && <p className={'text-red-600'}>Coordinates is required</p>}
                         <label>Category</label>
                         <Controller
                             name="category"
@@ -70,6 +98,8 @@ const EditLocation = ({
                             rules={{ required: true }}
                             render={({ field }) => <Select
                                 {...field}
+                                isMulti={true}
+                                className={'mt-1'}
                                 options={categories.map(cat => (
                                     {
                                         value: cat.id,

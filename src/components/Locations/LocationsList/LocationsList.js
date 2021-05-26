@@ -16,18 +16,36 @@ const LocationsList = ({
                            groupBy
                         }) => {
 
-    const location = useMemo(() => locations.find(loc => loc.id === locationId),
-        [locations, locationId]);
+    /* filter by category */
+    locations = useMemo(() => [...locations].filter(loc => loc.category.find(cat => cat.label.toLowerCase().includes(category))),
+        [locations, category]);;
 
-    categories = useMemo(() => categories.filter(cat => cat.name.toLowerCase().includes(category)),
-        [category]);
-
+    /* sort */
     locations = useMemo(() => {
         if(sort.value === 'alphabetically') {
             return [...locations].sort((a, b) => a.name.localeCompare(b.name));
         }
         return locations;
     }, [locations, sort.value]);
+
+    const location = useMemo(() => locations.find(loc => loc.id === locationId),
+        [locations, locationId]);
+
+    const locationsByCategory = useMemo(() => {
+        const data = {};
+        categories.forEach((cat) => {
+            data[cat.id] = [];
+        });
+        locations.forEach((item) => {
+            item.category.forEach((cat) => {
+                data[cat.value].push(item);
+            });
+        });
+        return data;
+    }, [locations, categories]);
+
+    categories = useMemo(() => categories.filter(cat => cat.name.toLowerCase().includes(category)),
+        [categories, category]);
 
     return (
         <>
@@ -39,7 +57,7 @@ const LocationsList = ({
             <div className={''}>
                 {!locations.length && <div className={'text-gray-400 p-2'}>Empty Locations</div>}
                 {groupBy && categories && categories
-                    .map(cat => <Group key={cat.id} groupedBy={'category'} item={cat} locations={locations} />)}
+                    .map(cat => <Group key={cat.id} group={cat} locations={locationsByCategory[cat.id]} />)}
                 {!groupBy && locations && <div className={'bg-white border shadow'}>
                     {locations.map(loc => <Location
                         key={loc.id}

@@ -33,9 +33,9 @@ const Filters = ({
                 <div className={'flex p-2'}>
                     <div className={'space-x-2'}>
                         <label>
-                            By Categories
+                            By Category
                         </label>
-                        <input type={'text'} className={'bg-gray-100 p-1'} onChange={e => onFilterByCategory(e.target.value)} value={category}/>
+                        <input type={'text'} className={'bg-gray-100 p-1'} onChange={e => onFilterByCategory(e.target.value)} value={category} placeholder={'category name'}/>
                     </div>
                     <div className={'flex items-end ml-auto'}>
                         <button className={'bg-gray-500 text-white rounded p-1 px-2 hover:bg-gray-600'} onClick={() => onViewGroupByCategory(!groupBy)}>Group By Categories</button>

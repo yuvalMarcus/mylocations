@@ -31,11 +31,12 @@ const ShowLocation = ({
                 </p>
                 <GoogleMap
                     onClick={null}
-                    lng={parseInt(location.coordinates.split(',')[0])}
-                    lat={parseInt(location.coordinates.split(',')[1])}
+                    lng={location.lng}
+                    lat={location.lat}
+                    zoom={8}
                     markers={[{
-                        lng: parseInt(location.coordinates.split(',')[0]),
-                        lat: parseInt(location.coordinates.split(',')[1]),
+                        lng: location.lng,
+                        lat: location.lat,
                         title: ''
                     }]} />
             </div>

@@ -37,7 +37,8 @@ const locationReducer = (state = initialState, action) => {
                         ...loc,
                         name: action.payload.name,
                         address: action.payload.address,
-                        coordinates: action.payload.coordinates,
+                        lng: action.payload.lng,
+                        lat: action.payload.lat,
                         category: action.payload.category
                     }
                 }
