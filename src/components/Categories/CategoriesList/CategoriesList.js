@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useCallback, useMemo} from "react";
 import {connect} from 'react-redux';
 import Category from "./Category/Category";
 import Toolbar from "../Toolbar/Toolbar";
@@ -34,20 +34,19 @@ const CategoriesList = ({
 CategoriesList.defaultProps = {
     categoryId: null,
     categories: [],
-    onSetCategory: null,
+    onSetCategory: null
 };
 
 const mapStateToProps = state => {
     return {
         categoryId: state.categories.itemId,
-        categories: state.categories.items
-    };
+        categories: state.categories.items,};
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onSetCategory: (id) => dispatch({type: actionTypes.SET_CATEGORY, id: id}),
-        onRemoveCategory: (id) => dispatch({type: actionTypes.REMOVE_CATEGORY, id: id})
+        onRemoveCategory: (id) => dispatch({type: actionTypes.REMOVE_CATEGORY, id: id}),
     }
 };
 

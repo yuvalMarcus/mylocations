@@ -77,8 +77,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onEditCategory: (category, id) => dispatch({type: actionTypes.EDIT_CATEGORY, payload: category, id: id}),
-        onRemoveCategory: (id) => dispatch({type: actionTypes.REMOVE_CATEGORY, id: id})
+        onEditCategory: (category, id) => dispatch({type: actionTypes.EDIT_CATEGORY, payload: category, id: id})
     }
 };
 

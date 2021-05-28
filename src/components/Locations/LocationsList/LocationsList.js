@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useMemo} from "react";
 import {connect} from 'react-redux';
 import Group from "./Group/Group";
 import Location from "./Location/Location";
 import Toolbar from "../Toolbar/Toolbar";
+import Sort from '../Sort/Sort';
 import Filters from '../Filters/Filters';
 import * as actionTypes from "../../../store/actions";
 
@@ -17,7 +18,18 @@ const LocationsList = ({
                         }) => {
 
     /* filter by category */
-    locations = useMemo(() => [...locations].filter(loc => loc.category.find(cat => cat.label.toLowerCase().includes(category))),
+    categories = useMemo(() => categories.filter(cat => cat.name.toLowerCase().includes(category)),
+        [categories, category]);
+
+    /* filter by category */
+    locations = useMemo(() => [...locations].
+        filter(loc => loc.category.find(catId => {
+            const cat = categories.find(cat => cat.id === catId);
+            if(!cat) {
+                return false;
+            }
+            return cat.name.toLowerCase().includes(category);
+        })),
         [locations, category]);;
 
     /* sort */
@@ -38,27 +50,33 @@ const LocationsList = ({
         });
         locations.forEach((item) => {
             item.category.forEach((cat) => {
-                data[cat.value].push(item);
+                if(data[cat]) {
+                    data[cat].push(item);
+                }
             });
         });
         return data;
     }, [locations, categories]);
 
-    categories = useMemo(() => categories.filter(cat => cat.name.toLowerCase().includes(category)),
-        [categories, category]);
-
     return (
         <>
             <Toolbar title={'Locations'} action={'select'} />
+            <Sort />
             <Filters />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Locations List</span>
             </div>
             <div className={''}>
-                {!locations.length && <div className={'text-gray-400 p-2'}>Empty Locations</div>}
+                {groupBy && !categories.length && <div className={'text-gray-400'}>Empty Categories</div>}
                 {groupBy && categories && categories
-                    .map(cat => <Group key={cat.id} group={cat} locations={locationsByCategory[cat.id]} />)}
-                {!groupBy && locations && <div className={'bg-white border shadow'}>
+                    .map(cat => <Group
+                        key={cat.id}
+                        group={cat}f
+                        location={location}
+                        locations={locationsByCategory[cat.id]}
+                        choose={(id) => onSetLocation(!location || id !== location.id ? id : null)} />)}
+                {!groupBy && !locations.length && <div className={'text-gray-400'}>Empty Locations</div>}
+                {!groupBy && locations.length > 0 && <div className={'bg-white border shadow'}>
                     {locations.map(loc => <Location
                         key={loc.id}
                         name={loc.name}
@@ -74,6 +92,7 @@ LocationsList.defaultProps = {
     locationId: null,
     locations: [],
     onSetLocation: null,
+    onRemoveLocation: null,
     categories: [],
     sort: '',
     category: '',
@@ -93,8 +112,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSetLocation: (id) => dispatch({type: actionTypes.SET_LOCATION, id: id}),
-        onRemoveLocation: (id) => dispatch({type: actionTypes.REMOVE_LOCATION, id: id})
+        onSetLocation: (id) => dispatch({type: actionTypes.SET_LOCATION, id: id})
     }
 };
 

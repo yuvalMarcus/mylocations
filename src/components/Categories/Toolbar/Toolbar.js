@@ -9,6 +9,7 @@ import { ReactComponent as MenuIcon } from '../../../asset/img/menu.svg';
 const Toolbar = ({
                      categoryId,
                      categories,
+                     locations,
                      action,
                      title,
                      onRemoveCategory
@@ -16,7 +17,10 @@ const Toolbar = ({
 
     const [menu, setMenu] = useState(false);
 
-    const notify = useCallback(() => toast.success("Category successfully deleted"),
+    const successNotify = useCallback(() => toast.success("Category successfully deleted"),
+        []);
+
+    const errorNotify = useCallback(() => toast.error("Category contains locations, cannot be deleted"),
         []);
 
     const category = useMemo(() => categories.find(cat => cat.id === categoryId),
@@ -26,9 +30,13 @@ const Toolbar = ({
         if(!category) {
             return;
         }
+        if(locations.filter(loc => loc.category.find(cat => cat === category.id)).length) {
+            errorNotify();
+            return;
+        }
         onRemoveCategory(category.id)
         setMenu(false);
-        notify();
+        successNotify();
     }, [category]);
 
     const renderNavbar = useCallback(() => (
@@ -68,6 +76,7 @@ const Toolbar = ({
 Toolbar.defaultProps = {
     categoryId: null,
     categories: [],
+    locations: [],
     action: 'no-select',
     title: '',
     onRemoveCategory: null
@@ -76,7 +85,8 @@ Toolbar.defaultProps = {
 const mapStateToProps = state => {
     return {
         categoryId: state.categories.itemId,
-        categories: state.categories.items
+        categories: state.categories.items,
+        locations: state.locations.items
     };
 };
 

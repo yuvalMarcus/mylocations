@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import Toolbar from "../Toolbar/Toolbar";
 import GoogleMap from '../../GoogleMap/GoogleMap';
+import * as actionTypes from "../../../store/actions";
 
 const ShowLocation = ({
                           locations,

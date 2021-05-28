@@ -20,8 +20,8 @@ const EditLocation = ({
         [locations, locationId]);
 
     const [coordinates, setCoordinates] = useState([{
-        lng: location.lng,
-        lat: location.lat,
+        lng: location && location.lng,
+        lat: location && location.lat,
         title: ''
     }]);
 
@@ -37,7 +37,12 @@ const EditLocation = ({
             address: location && location.address,
             lng: location && location.lng,
             lat: location && location.lat,
-            category: location && location.category
+            category: location && location.category.map(catId => {
+                return {
+                    label: categories.find(cat => cat.id === catId).name,
+                    value: catId
+                }
+            })
         }
     });
 
@@ -49,7 +54,10 @@ const EditLocation = ({
     }
 
     const onSubmit = (data) => {
-        onEditLocation(data, location.id);
+        onEditLocation({
+            ...data,
+            category: data.category.map(cat => cat.value)
+        }, location.id);
         notify();
         history.push('/locations');
     }
@@ -137,8 +145,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onEditLocation: (location, id) => dispatch({type: actionTypes.EDIT_LOCATION, payload: location, id: id}),
-        onRemoveLocation: (id) => dispatch({type: actionTypes.REMOVE_LOCATION, id: id})
+        onEditLocation: (location, id) => dispatch({type: actionTypes.EDIT_LOCATION, payload: location, id: id})
     }
 };
 

@@ -1,11 +1,11 @@
-import React, {useMemo} from "react";
+import React, {useCallback, useMemo} from "react";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
-import Toolbar from "../Toolbar/Toolbar";
+import Toolbar from "../Toolbar/Toolbar";;
 
 const ShowCategory = ({
                           categories,
-                          categoryId
+                          categoryId,
                       }) => {
 
     const category = useMemo(() => categories.find(cat => cat.id === categoryId),
@@ -30,13 +30,13 @@ const ShowCategory = ({
 
 ShowCategory.defaultProps = {
     categories: [],
-    categoryId: null
+    categoryId: null,
 };
 
 const mapStateToProps = state => {
     return {
         categoryId: state.categories.itemId,
-        categories: state.categories.items
+        categories: state.categories.items,
     };
 };
 

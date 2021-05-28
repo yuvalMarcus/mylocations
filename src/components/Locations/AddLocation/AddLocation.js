@@ -27,8 +27,10 @@ const AddLocation = ({
     } = useForm();
 
     const onSubmit = (data) => {
-        console.log(data);
-        onAddLocation(data);
+        onAddLocation({
+            ...data,
+            category: data.category.map(cat => cat.value)
+        });
         notify();
         history.push('/locations');
     }
@@ -47,7 +49,7 @@ const AddLocation = ({
 
     return (
         <>
-            <Toolbar title={'Add Location'} />
+            <Toolbar title={'Add Location'} action={''} />
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Add New Location</span>
             </div>
