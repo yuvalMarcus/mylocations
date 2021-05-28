@@ -16,6 +16,15 @@ const LocationsList = ({
                            category,
                            groupBy
                         }) => {
+    /*
+    locations = locations.filter(loc => loc.category.map(catId => {
+        const cat = categories.find(cat => cat.id === catId);
+        return {
+            label: cat.name,
+            value: catId
+        }
+    }))
+    */
 
     /* filter by category */
     categories = useMemo(() => categories.filter(cat => cat.name.toLowerCase().includes(category)),

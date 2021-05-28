@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useMemo} from "react";
 import {connect} from 'react-redux';
 import Category from "./Category/Category";
 import Toolbar from "../Toolbar/Toolbar";
@@ -40,7 +40,8 @@ CategoriesList.defaultProps = {
 const mapStateToProps = state => {
     return {
         categoryId: state.categories.itemId,
-        categories: state.categories.items,};
+        categories: state.categories.items
+    };
 };
 
 const mapDispatchToProps = dispatch => {
