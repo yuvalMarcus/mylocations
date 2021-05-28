@@ -22,7 +22,7 @@ const LocationsList = ({
         [categories, category]);
 
     /* filter by category */
-    locations = useMemo(() => [...locations].
+    locations = useMemo(() => locations.
         filter(loc => loc.category.find(catId => {
             const cat = categories.find(cat => cat.id === catId);
             if(!cat) {
