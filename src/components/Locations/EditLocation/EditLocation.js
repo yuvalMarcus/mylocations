@@ -91,7 +91,8 @@ const EditLocation = ({
                         {errors.address && <p className={'text-red-600'}>Address is required</p>}
                         <label>Coordinates</label>
                         <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lng',{ required: true })} />
-                        <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lat',{ required: true })} />                        <GoogleMap
+                        <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lat',{ required: true })} />
+                        <GoogleMap
                             onClick={handleMap}
                             lng={location.lng}
                             lat={location.lat}
