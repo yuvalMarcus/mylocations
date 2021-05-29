@@ -15,7 +15,7 @@ const ByCategory = ({
 
     return (
         <div className={'bg-white border-b-4 border-gray-600 rounded shadow-xl mb-6'}>
-            <div className={'flex justify-between bg-gray-100 border-t-2 border-b-2 border-gray-200 p-2'}>
+            <div className={'flex justify-between bg-gray-600 text-white rounded-t p-2'}>
                 <span>By Categories</span>
                 <span className={'bg-gray-500 text-white p-0.5 w-6 h-6 cursor-pointer'} onClick={() => setOpen(!open)}>
                         {open && <MinusIcon />}
