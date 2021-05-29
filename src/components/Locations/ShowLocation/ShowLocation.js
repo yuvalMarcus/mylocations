@@ -31,7 +31,7 @@ const ShowLocation = ({
                     {!!currentLocation && `Categories:`}
                     {!!currentLocation && currentLocation.categories.map(categoryId => {
                         const category = categories.find(category => category.id === categoryId);
-                        return <span className={'ml-2'}>{category.name}</span>;
+                        return <span key={category.id} className={'ml-2'}>{category.name}</span>;
                     })}
                 </p>
                 <p>
