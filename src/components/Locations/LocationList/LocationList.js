@@ -66,24 +66,22 @@ const LocationList = ({
             <div className={'text-gray-500 font-bold py-2'}>
                 <span>Location List</span>
             </div>
-            <div className={''}>
-                {groupBy && !categoriesByFilter.length && <div className={'text-gray-400'}>Empty Categories</div>}
-                {groupBy && !!categoriesByFilter.length && categoriesByFilter
-                    .map(category => <Group
-                        key={category.id}
-                        group={category}
-                        location={currentLocation}
-                        locations={locationsByCategory[category.id]}
-                        choose={(id) => onSetLocation(!currentLocation || id !== currentLocation.id ? id : null)} />)}
-                {!groupBy && !locationsSort.length && <div className={'text-gray-400'}>Empty Locations</div>}
-                {!groupBy && !!locationsSort.length && <div className={'bg-white border shadow'}>
-                    {locationsSort.map(loc => <Location
-                        key={loc.id}
-                        name={loc.name}
-                        active={currentLocation && loc.id === currentLocation.id}
-                        choose={() => onSetLocation(!currentLocation || loc.id !== currentLocation.id ? loc.id : null)} />)}
-                </div>}
-            </div>
+            {groupBy && !categoriesByFilter.length && <div className={'text-gray-400'}>Empty Categories</div>}
+            {groupBy && !!categoriesByFilter.length && categoriesByFilter
+                .map(category => <Group
+                    key={category.id}
+                    group={category}
+                    location={currentLocation}
+                    locations={locationsByCategory[category.id]}
+                    choose={(id) => onSetLocation(!currentLocation || id !== currentLocation.id ? id : null)} />)}
+            {!groupBy && !locationsSort.length && <div className={'text-gray-400'}>Empty Locations</div>}
+            {!groupBy && !!locationsSort.length && <div className={'bg-white border shadow'}>
+                {locationsSort.map(loc => <Location
+                    key={loc.id}
+                    name={loc.name}
+                    active={currentLocation && loc.id === currentLocation.id}
+                    choose={() => onSetLocation(!currentLocation || loc.id !== currentLocation.id ? loc.id : null)} />)}
+            </div>}
         </>
     )
 }

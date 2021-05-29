@@ -7,7 +7,7 @@ const Group = ({
                    choose,
                    group,
                }) => (
-    <div className={'border-b-2 border-gray-100 cursor-pointer'}>
+    <div className={'border-b-2 border-gray-100'}>
         <div className={'bg-blue-600 text-white border-l-4 border-blue-400 p-2'}>
             {group.name}
         </div>
