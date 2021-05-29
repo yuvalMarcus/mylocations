@@ -8,7 +8,7 @@ const Group = ({
                    group,
                }) => (
     <div className={'border-b-2 border-gray-100 cursor-pointer'}>
-        <div className={'bg-gray-300 border border-gray-400 p-2'}>
+        <div className={'bg-blue-600 text-white border-l-4 border-blue-400 p-2'}>
             {group.name}
         </div>
         {!locations.length && <div className={'text-gray-400 py-2 ml-4'}>Empty Locations</div>}
