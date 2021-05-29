@@ -16,56 +16,46 @@ const LocationsList = ({
                            category,
                            groupBy
                         }) => {
-    /*
-    locations = locations.filter(loc => loc.category.map(catId => {
-        const cat = categories.find(cat => cat.id === catId);
-        return {
-            label: cat.name,
-            value: catId
-        }
-    }))
-    */
-
     /* filter by category */
-    categories = useMemo(() => categories.filter(cat => cat.name.toLowerCase().includes(category)),
+    const categoriesByFilter = useMemo(() => categories.filter(currentCategory => currentCategory.name.toLowerCase().includes(category.toLowerCase())),
         [categories, category]);
 
     /* filter by category */
-    locations = useMemo(() => locations.
-        filter(loc => loc.category.find(catId => {
-            const cat = categories.find(cat => cat.id === catId);
-            if(!cat) {
+    const locationsByFilter = useMemo(() => locations.
+        filter(loc => loc.category.some(categoryId => {
+            const currentCategory = categories.find(currentCategory => currentCategory.id === categoryId);
+            if(!currentCategory) {
                 return false;
             }
-            return cat.name.toLowerCase().includes(category);
+            return currentCategory.name.toLowerCase().includes(category.toLowerCase());
         })),
         [locations, category]);;
 
     /* sort */
-    locations = useMemo(() => {
+    const locationsSort = useMemo(() => {
         if(sort.value === 'alphabetically') {
-            return [...locations].sort((a, b) => a.name.localeCompare(b.name));
+            return [...locationsByFilter].sort((a, b) => a.name.localeCompare(b.name));
         }
-        return locations;
-    }, [locations, sort.value]);
+        return locationsByFilter;
+    }, [locationsByFilter, sort.value]);
 
-    const location = useMemo(() => locations.find(loc => loc.id === locationId),
+    const currentLocation = useMemo(() => locations.find(currentLocation => currentLocation.id === locationId),
         [locations, locationId]);
 
     const locationsByCategory = useMemo(() => {
         const data = {};
-        categories.forEach((cat) => {
-            data[cat.id] = [];
+        categoriesByFilter.forEach((currentCategory) => {
+            data[currentCategory.id] = [];
         });
-        locations.forEach((item) => {
-            item.category.forEach((cat) => {
-                if(data[cat]) {
-                    data[cat].push(item);
+        locationsSort.forEach((currentLocation) => {
+            currentLocation.category.forEach(categoryId => {
+                if(data[categoryId]) {
+                    data[categoryId].push(currentLocation);
                 }
             });
         });
         return data;
-    }, [locations, categories]);
+    }, [locationsSort, categoriesByFilter]);
 
     return (
         <>
@@ -76,21 +66,21 @@ const LocationsList = ({
                 <span>Locations List</span>
             </div>
             <div className={''}>
-                {groupBy && !categories.length && <div className={'text-gray-400'}>Empty Categories</div>}
-                {groupBy && categories && categories
+                {groupBy && !categoriesByFilter.length && <div className={'text-gray-400'}>Empty Categories</div>}
+                {groupBy && categoriesByFilter && categoriesByFilter
                     .map(cat => <Group
                         key={cat.id}
-                        group={cat}f
-                        location={location}
+                        group={cat}
+                        location={currentLocation}
                         locations={locationsByCategory[cat.id]}
-                        choose={(id) => onSetLocation(!location || id !== location.id ? id : null)} />)}
-                {!groupBy && !locations.length && <div className={'text-gray-400'}>Empty Locations</div>}
-                {!groupBy && locations.length > 0 && <div className={'bg-white border shadow'}>
-                    {locations.map(loc => <Location
+                        choose={(id) => onSetLocation(!currentLocation || id !== currentLocation.id ? id : null)} />)}
+                {!groupBy && !locationsSort.length && <div className={'text-gray-400'}>Empty Locations</div>}
+                {!groupBy && locationsSort.length > 0 && <div className={'bg-white border shadow'}>
+                    {locationsSort.map(loc => <Location
                         key={loc.id}
                         name={loc.name}
-                        active={location && loc.id === location.id}
-                        choose={() => onSetLocation(!location || loc.id !== location.id ? loc.id : null)} />)}
+                        active={currentLocation && loc.id === currentLocation.id}
+                        choose={() => onSetLocation(!currentLocation || loc.id !== currentLocation.id ? loc.id : null)} />)}
                 </div>}
             </div>
         </>
