@@ -30,7 +30,7 @@ const Toolbar = ({
         if(!currentCategory) {
             return;
         }
-        if(!!locations.filter(loc => loc.category.some(category => category === currentCategory.id)).length) {
+        if(!!locations.filter(loc => loc.categories.some(category => category === currentCategory.id)).length) {
             errorNotify();
             return;
         }
