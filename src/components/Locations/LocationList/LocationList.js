@@ -7,7 +7,7 @@ import Sort from '../Sort/Sort';
 import Filters from '../Filters/Filters';
 import * as actionTypes from "../../../store/actions";
 
-const LocationsList = ({
+const LocationList = ({
                            categories,
                            locations,
                            locationId,
@@ -88,7 +88,7 @@ const LocationsList = ({
     )
 }
 
-LocationsList.defaultProps = {
+LocationList.defaultProps = {
     categories: [],
     locations: [],
     locationId: null,
@@ -115,4 +115,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocationsList);
+export default connect(mapStateToProps, mapDispatchToProps)(LocationList);

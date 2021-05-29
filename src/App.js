@@ -9,7 +9,7 @@ import AddCategory from './components/Categories/AddCategory/AddCategory';
 import EditCategory from './components/Categories/EditCategory/EditCategory';
 import ShowCategory from './components/Categories/ShowCategory/ShowCategory';
 
-import Locations from './components/Locations/LocationsList/LocationsList';
+import Locations from './components/Locations/LocationList/LocationList';
 import AddLocation from './components/Locations/AddLocation/AddLocation';
 import EditLocation from './components/Locations/EditLocation/EditLocation';
 import ShowLocation from './components/Locations/ShowLocation/ShowLocation';
