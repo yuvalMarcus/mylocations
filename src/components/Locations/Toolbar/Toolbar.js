@@ -58,7 +58,7 @@ const Toolbar = ({
             <div className={[
                 'flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 md:px-2 cursor-pointer overflow-hidden max-h-0 md:max-h-screen transition-height ease-in-out duration-500',
                 menu && 'max-h-screen'
-            ].filter(Boolean). join(' ')}>
+            ].filter(Boolean).join(' ')}>
                 {renderNavbar()}
             </div>
         </div>

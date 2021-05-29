@@ -25,7 +25,7 @@ const ByCategory = ({
             <div className={[
                 'flex flex-col md:flex-row overflow-hidden max-h-0 transition-height ease-in-out duration-500',
                 open && 'max-h-screen'
-            ].filter(Boolean). join(' ')}>
+            ].filter(Boolean).join(' ')}>
                 <div className={'space-x-2 p-2'}>
                     <label>
                         By Category
