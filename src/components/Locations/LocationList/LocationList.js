@@ -64,7 +64,7 @@ const LocationList = ({
             <Sort />
             <Filters />
             <div className={'text-gray-500 font-bold py-2'}>
-                <span>Locations List</span>
+                <span>Location List</span>
             </div>
             <div className={''}>
                 {groupBy && !categoriesByFilter.length && <div className={'text-gray-400'}>Empty Categories</div>}
