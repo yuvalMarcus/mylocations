@@ -66,8 +66,8 @@ const LocationsList = ({
                 <span>Locations List</span>
             </div>
             <div className={''}>
-                {groupBy && !categoriesByFilter.length && <div className={'text-gray-400'}>Empty Categories</div>}
-                {groupBy && categoriesByFilter && categoriesByFilter
+                {groupBy && !locationsSort.length && <div className={'text-gray-400'}>Empty Categories</div>}
+                {groupBy && locationsSort.length && locationsSort
                     .map(cat => <Group
                         key={cat.id}
                         group={cat}
