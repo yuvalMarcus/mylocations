@@ -4,13 +4,13 @@ import Category from "./Category/Category";
 import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from "../../../store/actions";
 
-const CategoriesList = ({
-                            categoryId,
-                            categories,
-                            onSetCategory,
+const CategoryList = ({
+                          categories,
+                          categoryId,
+                          onSetCategory
                         }) => {
 
-    const category = useMemo(() => categories.find(cat => cat.id === categoryId),
+    const currentCategory = useMemo(() => categories.find(category => category.id === categoryId),
         [categories, categoryId]);
 
     return (
@@ -21,26 +21,26 @@ const CategoriesList = ({
             </div>
             <div className={'bg-white border shadow'}>
                 {!categories.length && <div className={'text-gray-400 p-2'}>Empty Categories</div>}
-                {categories.map(cat => <Category
-                    key={cat.id}
-                    name={cat.name}
-                    active={category && cat.id === category.id}
-                    choose={() => onSetCategory(!category || cat.id !== category.id ? cat.id : null)} />)}
+                {categories.map(category => <Category
+                    key={category.id}
+                    name={category.name}
+                    active={!!currentCategory && category.id === currentCategory.id}
+                    choose={() => onSetCategory(!currentCategory || category.id !== currentCategory.id ? category.id : null)} />)}
             </div>
         </>
     )
 }
 
-CategoriesList.defaultProps = {
-    categoryId: null,
+CategoryList.defaultProps = {
     categories: [],
+    categoryId: null,
     onSetCategory: null
 };
 
 const mapStateToProps = state => {
     return {
-        categoryId: state.categories.itemId,
-        categories: state.categories.items
+        categories: state.categories.items,
+        categoryId: state.categories.itemId
     };
 };
 
@@ -51,4 +51,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoriesList);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);

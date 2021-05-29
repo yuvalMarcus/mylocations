@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {connect} from "react-redux";
-import * as actionTypes from "../../../../store/actions";
 import {ReactComponent as MinusIcon} from "../../../../asset/img/minus-sm.svg";
 import {ReactComponent as PlusIcon} from "../../../../asset/img/plus-sm.svg";
+import * as actionTypes from "../../../../store/actions";
 
 const ByCategory = ({
                         groupBy,
+                        category,
                         onViewGroupByCategory,
-                        onFilterByCategory,
-                        category
+                        onFilterByCategory
                     }) => {
 
     const [open, setOpen] = useState(true);
@@ -58,10 +58,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 ByCategory.defaultProps = {
-    onViewGroupByCategory: null,
     groupBy: null,
-    onFilterByCategory: null,
     category: '',
+    onViewGroupByCategory: null,
+    onFilterByCategory: null
 };
 
 

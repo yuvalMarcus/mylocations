@@ -3,18 +3,18 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import Toolbar from "../Toolbar/Toolbar";
 import GoogleMap from '../../GoogleMap/GoogleMap';
-import * as actionTypes from "../../../store/actions";
 
 const ShowLocation = ({
+                          categories,
                           locations,
                           locationId
                       }) => {
 
-    const location = useMemo(() => locations.find(loc => loc.id === locationId),
+    const currentLocation = useMemo(() => locations.find(loc => loc.id === locationId),
         [locations, locationId]);
 
-    if(!location) {
-        return <Redirect to={'/'} />;
+    if(!currentLocation) {
+        return <Redirect to={'/locations'} />;
     }
 
     return (
@@ -25,19 +25,26 @@ const ShowLocation = ({
             </div>
             <div className={'bg-white border rounded shadow p-2 space-y-4'}>
                 <p>
-                    {location && `Name: ${location.name}`}
+                    {!!currentLocation && `Name: ${currentLocation.name}`}
                 </p>
                 <p>
-                    {location && `Address: ${location.address}`}
+                    {!!currentLocation && `Categories:`}
+                    {!!currentLocation && currentLocation.categories.map(categoryId => {
+                        const category = categories.find(category => category.id === categoryId);
+                        return <span className={'ml-2'}>{category.name}</span>;
+                    })}
+                </p>
+                <p>
+                    {!!currentLocation && `Address: ${currentLocation.address}`}
                 </p>
                 <GoogleMap
                     onClick={null}
-                    lng={location.lng}
-                    lat={location.lat}
+                    lng={currentLocation.lng}
+                    lat={currentLocation.lat}
                     zoom={8}
                     markers={[{
-                        lng: location.lng,
-                        lat: location.lat,
+                        lng: currentLocation.lng,
+                        lat: currentLocation.lat,
                         title: ''
                     }]} />
             </div>
@@ -46,14 +53,16 @@ const ShowLocation = ({
 }
 
 ShowLocation.defaultProps = {
+    categories: [],
     locations: [],
     locationId: null
 };
 
 const mapStateToProps = state => {
     return {
+        categories: state.categories.items,
+        locations: state.locations.items,
         locationId: state.locations.itemId,
-        locations: state.locations.items
     };
 };
 

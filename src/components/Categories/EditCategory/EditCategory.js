@@ -7,14 +7,17 @@ import Toolbar from "../Toolbar/Toolbar";
 import * as actionTypes from '../../../store/actions';
 
 const EditCategory = ({
-                          categoryId,
                           categories,
+                          categoryId,
                           onEditCategory,
                           history
                      }) => {
 
-    const category = useMemo(() => categories.find(cat => cat.id === categoryId),
+    const currentCategory = useMemo(() => categories.find(category => category.id === categoryId),
         [categories, categoryId]);
+
+    const notify = useCallback(() => toast.success("Category successfully edited"),
+        []);
 
     const {
         register,
@@ -22,19 +25,16 @@ const EditCategory = ({
         formState: { errors },
     } = useForm({
         defaultValues: {
-            name: category && category.name
+            name: !!currentCategory && currentCategory.name
         }
     });
 
-    const notify = useCallback(() => toast.success("Category successfully edited"),
-        []);
-
-    if(!category) {
+    if(!currentCategory) {
         return <Redirect to={'/'} />;
     }
 
     const onSubmit = (data) => {
-        onEditCategory(data, category.id);
+        onEditCategory(data, currentCategory.id);
         notify();
         history.push('/categories');
     }
@@ -62,16 +62,16 @@ const EditCategory = ({
 };
 
 EditCategory.defaultProps = {
-    categoryId: null,
     categories: [],
+    categoryId: null,
     onEditCategory: null,
     history: null
 };
 
 const mapStateToProps = state => {
     return {
-        categoryId: state.categories.itemId,
-        categories: state.categories.items
+        categories: state.categories.items,
+        categoryId: state.categories.itemId
     };
 };
 

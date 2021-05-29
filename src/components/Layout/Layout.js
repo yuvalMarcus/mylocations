@@ -14,4 +14,8 @@ const Layout = ({
     </div>
 );
 
+Layout.defaultProps = {
+    children: null
+}
+
 export default Layout;

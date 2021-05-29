@@ -29,7 +29,7 @@ const AddLocation = ({
     const onSubmit = (data) => {
         onAddLocation({
             ...data,
-            category: data.category.map(cat => cat.value)
+            categories: data.categories.map(category => category.value)
         });
         notify();
         history.push('/locations');
@@ -43,8 +43,8 @@ const AddLocation = ({
                 title: ''
             }
         ]);
-        setValue("lng", data.lng);
-        setValue("lat", data.lat);
+        setValue('lng', data.lng);
+        setValue('lat', data.lat);
     }
 
     return (
@@ -73,24 +73,24 @@ const AddLocation = ({
                             markers={coordinates}
                         />
                         {errors.lng && errors.lat && <p className={'text-red-600'}>Coordinates is required</p>}
-                        <label>Category</label>
+                        <label>Categories</label>
                         <Controller
-                            name="category"
+                            name="categories"
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => <Select
                                 {...field}
                                 isMulti={true}
                                 className={'mt-1'}
-                                options={categories.map(cat => (
+                                options={categories.map(category => (
                                     {
-                                        value: cat.id,
-                                        label: cat.name
+                                        value: category.id,
+                                        label: category.name
                                     }
                                 ))}
                             />}
                         />
-                        {errors.category && <p className={'text-red-600'}>Category is required</p>}
+                        {errors.categories && <p className={'text-red-600'}>Category is required</p>}
                     </div>
                     <div className={'p-2'}>
                         <input className={'rounded p-3 bg-pink-600 text-white cursor-pointer hover:bg-pink-700'} type="submit" value={'Add Location'} />
@@ -109,7 +109,6 @@ AddLocation.defaultProps = {
 
 const mapStateToProps = state => {
     return {
-        locations: state.locations.items,
         categories: state.categories.items
     };
 };

@@ -8,28 +8,32 @@ import Filters from '../Filters/Filters';
 import * as actionTypes from "../../../store/actions";
 
 const LocationsList = ({
-                           locationId,
-                           locations,
-                           onSetLocation,
                            categories,
+                           locations,
+                           locationId,
                            sort,
                            category,
-                           groupBy
+                           groupBy,
+                           onSetLocation
                         }) => {
+
+    const currentLocation = useMemo(() => locations.find(loc => loc.id === locationId),
+        [locations, locationId]);
+
     /* filter by category */
     const categoriesByFilter = useMemo(() => categories.filter(currentCategory => currentCategory.name.toLowerCase().includes(category.toLowerCase())),
         [categories, category]);
 
     /* filter by category */
     const locationsByFilter = useMemo(() => locations.
-        filter(loc => loc.category.some(categoryId => {
+        filter(loc => loc.categories.some(categoryId => {
             const currentCategory = categories.find(currentCategory => currentCategory.id === categoryId);
             if(!currentCategory) {
                 return false;
             }
             return currentCategory.name.toLowerCase().includes(category.toLowerCase());
         })),
-        [locations, category]);;
+        [locations, category]);
 
     /* sort */
     const locationsSort = useMemo(() => {
@@ -39,23 +43,20 @@ const LocationsList = ({
         return locationsByFilter;
     }, [locationsByFilter, sort.value]);
 
-    const currentLocation = useMemo(() => locations.find(currentLocation => currentLocation.id === locationId),
-        [locations, locationId]);
-
     const locationsByCategory = useMemo(() => {
         const data = {};
         categoriesByFilter.forEach((currentCategory) => {
             data[currentCategory.id] = [];
         });
         locationsSort.forEach((currentLocation) => {
-            currentLocation.category.forEach(categoryId => {
+            currentLocation.categories.forEach(categoryId => {
                 if(data[categoryId]) {
                     data[categoryId].push(currentLocation);
                 }
             });
         });
         return data;
-    }, [locationsSort, categoriesByFilter]);
+    }, [locationsSort, categories]);
 
     return (
         <>
@@ -66,16 +67,16 @@ const LocationsList = ({
                 <span>Locations List</span>
             </div>
             <div className={''}>
-                {groupBy && !locationsSort.length && <div className={'text-gray-400'}>Empty Categories</div>}
-                {groupBy && locationsSort.length && locationsSort
-                    .map(cat => <Group
-                        key={cat.id}
-                        group={cat}
+                {groupBy && !categoriesByFilter.length && <div className={'text-gray-400'}>Empty Categories</div>}
+                {groupBy && !!categoriesByFilter.length && categoriesByFilter
+                    .map(category => <Group
+                        key={category.id}
+                        group={category}
                         location={currentLocation}
-                        locations={locationsByCategory[cat.id]}
+                        locations={locationsByCategory[category.id]}
                         choose={(id) => onSetLocation(!currentLocation || id !== currentLocation.id ? id : null)} />)}
                 {!groupBy && !locationsSort.length && <div className={'text-gray-400'}>Empty Locations</div>}
-                {!groupBy && locationsSort.length > 0 && <div className={'bg-white border shadow'}>
+                {!groupBy && !!locationsSort.length && <div className={'bg-white border shadow'}>
                     {locationsSort.map(loc => <Location
                         key={loc.id}
                         name={loc.name}
@@ -88,21 +89,20 @@ const LocationsList = ({
 }
 
 LocationsList.defaultProps = {
-    locationId: null,
-    locations: [],
-    onSetLocation: null,
-    onRemoveLocation: null,
     categories: [],
+    locations: [],
+    locationId: null,
     sort: '',
     category: '',
-    groupBy: false
+    groupBy: false,
+    onSetLocation: null
 };
 
 const mapStateToProps = state => {
     return {
-        locationId: state.locations.itemId,
-        locations: state.locations.items,
         categories: state.categories.items,
+        locations: state.locations.items,
+        locationId: state.locations.itemId,
         sort: state.locations.sort,
         category: state.locations.filter.category,
         groupBy: state.locations.view.groupBy,

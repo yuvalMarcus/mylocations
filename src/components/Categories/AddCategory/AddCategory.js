@@ -52,16 +52,10 @@ AddCategory.defaultProps = {
     history: null
 };
 
-const mapStateToProps = state => {
-    return {
-        categories: state.categories.items
-    };
-};
-
 const mapDispatchToProps = dispatch => {
     return {
         onAddCategory: (category) => dispatch({type: actionTypes.ADD_CATEGORY, category: category})
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCategory);
+export default connect(null, mapDispatchToProps)(AddCategory);

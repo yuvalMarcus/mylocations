@@ -1,10 +1,10 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
-import * as actionTypes from "../../../store/actions";
 import { ReactComponent as PaperClipIcon } from '../../../asset/img/paper-clip.svg';
 import { ReactComponent as MenuIcon } from '../../../asset/img/menu.svg';
+import * as actionTypes from "../../../store/actions";
 
 const Toolbar = ({
                      locationId,
@@ -16,27 +16,27 @@ const Toolbar = ({
 
     const [menu, setMenu] = useState(false);
 
+    const currentLocation = useMemo(() => locations.find(loc => loc.id === locationId),
+        [locations, locationId]);
+
     const notify = useCallback(() => toast.success("Location successfully deleted"),
         []);
 
-    const location = useMemo(() => locations.find(loc => loc.id === locationId),
-        [locations, locationId]);
-
     const removeLocation = useCallback(() => {
-        if(!location) {
+        if(!currentLocation) {
             return;
         }
-        onRemoveLocation(location.id)
+        onRemoveLocation(currentLocation.id)
         setMenu(false);
         notify();
-    }, [location]);
+    }, [currentLocation]);
 
     const renderNavbar = useCallback(() => (
         <>
             <Link className={'bg-blue-400 text-white rounded p-1 px-2 mt-2 md:mt-0 hover:bg-blue-500'} to={`/locations`}>list</Link>
             <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/locations/add`}>add</Link>
             {
-                location && action === 'select' && (
+                !!currentLocation && action === 'select' && (
                     <>
                         <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/locations/edit`}>edit</Link>
                         <Link className={'bg-blue-400 text-white rounded p-1 px-2 hover:bg-blue-500'} to={`/locations/show`}>view details</Link>
@@ -46,7 +46,7 @@ const Toolbar = ({
             }
 
         </>
-    ), [location, action]);
+    ), [currentLocation, action]);
 
     return (
         <div className={'md:flex bg-blue-200 border-b-4 border-blue-600 rounded shadow-xl p-2 mb-6'}>

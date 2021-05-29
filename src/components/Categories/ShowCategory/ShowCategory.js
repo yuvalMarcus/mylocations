@@ -8,10 +8,10 @@ const ShowCategory = ({
                           categoryId,
                       }) => {
 
-    const category = useMemo(() => categories.find(cat => cat.id === categoryId),
+    const currentCategory = useMemo(() => categories.find(category => category.id === categoryId),
         [categories, categoryId]);
 
-    if(!category) {
+    if(!currentCategory) {
         return <Redirect to={'/'} />;
     }
 
@@ -22,7 +22,7 @@ const ShowCategory = ({
                 <span>Show Category</span>
             </div>
             <div className={'bg-white border rounded shadow p-2'}>
-                {category && `Name: ${category.name}`}
+                {!!currentCategory && `Name: ${currentCategory.name}`}
             </div>
         </>
     )
@@ -35,8 +35,8 @@ ShowCategory.defaultProps = {
 
 const mapStateToProps = state => {
     return {
-        categoryId: state.categories.itemId,
         categories: state.categories.items,
+        categoryId: state.categories.itemId
     };
 };
 

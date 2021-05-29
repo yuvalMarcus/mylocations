@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactComponent as ChevronRightIcon } from '../../../../asset/img/chevron-right.svg';
 
-const Location = ({
+const Category = ({
                       name,
                       active,
                       choose
@@ -23,10 +23,10 @@ const Location = ({
     </div>
 );
 
-Location.defaultProps = {
+Category.defaultProps = {
     name: '',
     active: false,
     choose: null
 };
 
-export default Location;
+export default Category;

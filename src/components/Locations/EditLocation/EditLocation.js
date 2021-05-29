@@ -10,20 +10,23 @@ import GoogleMap from "../../GoogleMap/GoogleMap";
 
 const EditLocation = ({
                           categories,
-                          locationId,
                           locations,
+                          locationId,
                           onEditLocation,
                           history
                      }) => {
 
-    const location = useMemo(() => locations.find(loc => loc.id === locationId),
+    const currentLocation = useMemo(() => locations.find(loc => loc.id === locationId),
         [locations, locationId]);
 
     const [coordinates, setCoordinates] = useState([{
-        lng: location && location.lng,
-        lat: location && location.lat,
+        lng: !!currentLocation && currentLocation.lng,
+        lat: !!currentLocation && currentLocation.lat,
         title: ''
     }]);
+
+    const notify = useCallback(() => toast.success("Location successfully edited"),
+        []);
 
     const {
         register,
@@ -33,31 +36,28 @@ const EditLocation = ({
         formState: { errors },
     } = useForm({
         defaultValues: {
-            name: location && location.name,
-            address: location && location.address,
-            lng: location && location.lng,
-            lat: location && location.lat,
-            category: location && location.category.map(catId => {
+            name: !!currentLocation && currentLocation.name,
+            address: !!currentLocation && currentLocation.address,
+            lng: !!currentLocation && currentLocation.lng,
+            lat: !!currentLocation && currentLocation.lat,
+            categories: !!currentLocation && currentLocation.categories.map(categoryId => {
                 return {
-                    label: categories.find(cat => cat.id === catId).name,
-                    value: catId
+                    label: categories.find(category => category.id === categoryId).name,
+                    value: categoryId
                 }
             })
         }
     });
 
-    const notify = useCallback(() => toast.success("Location successfully edited"),
-        []);
-
-    if(!location) {
-        return <Redirect to={'/'} />;
+    if(!currentLocation) {
+        return <Redirect to={'/locations'} />;
     }
 
     const onSubmit = (data) => {
         onEditLocation({
             ...data,
-            category: data.category.map(cat => cat.value)
-        }, location.id);
+            categories: data.categories.map(category => category.value)
+        }, currentLocation.id);
         notify();
         history.push('/locations');
     }
@@ -94,30 +94,30 @@ const EditLocation = ({
                         <input type={'hidden'} className={'bg-gray-100 w-full p-2 mb-2'} {...register('lat',{ required: true })} />
                         <GoogleMap
                             onClick={handleMap}
-                            lng={location.lng}
-                            lat={location.lat}
+                            lng={currentLocation.lng}
+                            lat={currentLocation.lat}
                             zoom={8}
                             markers={coordinates}
                         />
                         {errors.lng && errors.lat && <p className={'text-red-600'}>Coordinates is required</p>}
-                        <label>Category</label>
+                        <label>Categories</label>
                         <Controller
-                            name="category"
+                            name="categories"
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => <Select
                                 {...field}
                                 isMulti={true}
                                 className={'mt-1'}
-                                options={categories.map(cat => (
+                                options={categories.map(category => (
                                     {
-                                        value: cat.id,
-                                        label: cat.name
+                                        value: category.id,
+                                        label: category.name
                                     }
                                 ))}
                             />}
                         />
-                        {errors.category && <p className={'text-red-600'}>Category is required</p>}
+                        {errors.categories && <p className={'text-red-600'}>Category is required</p>}
                     </div>
                     <div className={'p-2'}>
                         <input className={'rounded p-3 bg-pink-600 text-white cursor-pointer hover:bg-pink-700'} type="submit" value={'Edit Category'} />
@@ -130,17 +130,17 @@ const EditLocation = ({
 
 EditLocation.defaultProps = {
     categories: [],
-    locationId: null,
     locations: [],
+    locationId: null,
     onEditLocation: null,
     history: null
 };
 
 const mapStateToProps = state => {
     return {
-        locationId: state.locations.itemId,
+        categories: state.categories.items,
         locations: state.locations.items,
-        categories: state.categories.items
+        locationId: state.locations.itemId
     };
 };
 
